@@ -4,5 +4,6 @@ EXPOSE 8080
 EXPOSE 5858
 WORKDIR /app
 ADD . /app
+RUN apt-get update -y
 RUN npm install 
 CMD ["npm","start"]
