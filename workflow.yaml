@@ -10,7 +10,7 @@ spec:
   volumes:
   - name: kaniko-secret
     secret:
-      secretName: regcred
+      secretName: dockercred
       items:
         - key: .dockerconfigjson
           path: config.json
@@ -26,7 +26,7 @@ spec:
         arguments:
           parameters:
           - name: app_repo
-            value: git://github.com/abhi1-rithu2/nodejs-welcome
+            value: git://github.com/sai8465/nodejs-welcome
           - name: container_image
             value: rithu1320/nodejs-welcome
           - name: container_tag
