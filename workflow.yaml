@@ -28,7 +28,7 @@ spec:
           - name: app_repo
             value: git://github.com/sai8465/nodejs-welcome
           - name: container_image
-            value: rithu1320/nodejs-welcome
+            value: sai8465/nodejs-welcome
           - name: container_tag
             value: "1.0.0"
 
