@@ -20,13 +20,13 @@ spec:
       tasks:
       - name: build
         templateRef:
-          name: container-image
+          name: kaniko
           template: build-kaniko-git
           clusterScope: true
         arguments:
           parameters:
           - name: app_repo
-            value: git://github.com/sai8465/nodejs-welcome.git
+            value: https://github.com/sai8465/nodejs-welcome.git
           - name: container_image
             value: sai8465/nodejs-welcome
           - name: container_tag
