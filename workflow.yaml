@@ -26,7 +26,7 @@ spec:
         arguments:
           parameters:
           - name: app_repo
-            value: https://github.com/sai8465/nodejs-welcome.git
+            value: git@github.com:sai8465/nodejs-welcome.git
           - name: container_image
             value: sai8465/nodejs-welcome
           - name: container_tag
