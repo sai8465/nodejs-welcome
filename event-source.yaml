@@ -1,0 +1,13 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: webhook
+spec:
+  webhook:
+    nodejs:
+      port: "12000"
+      endpoint: /nodejs
+      method: POST
+      authSecret:
+        name: my-webhook
+        key: my-token
