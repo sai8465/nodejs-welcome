@@ -30,4 +30,4 @@ spec:
                  - name: container_image
                    value: sai8465/nodejs-welcome
                  - name: container_tag
-                   value: "1.2.0"
+                   value: "1.3.0"
