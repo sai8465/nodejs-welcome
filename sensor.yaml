@@ -1,0 +1,74 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: github
+spec:
+  template:
+    serviceAccountName: nodejs
+  dependencies:
+    - name: test-dep
+      eventSourceName: github
+      eventName: nodejs
+      filters:
+        data:
+          # Name of the event that triggered the delivery: [pull_request, push, yadayadayada]
+          # https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads
+          - path: body.X-GitHub-Event
+            type: string
+            value:
+              - pull_request
+          - path: body.action
+            type: string
+            value:
+              - opened
+              - edited
+              - reopened
+              - synchronize
+          - path: body.pull_request.state
+            type: string
+            value:
+              - open
+          - path: body.pull_request.base.ref
+            type: string
+            value:
+              - master
+  triggers:
+    - template:
+        name: github-workflow-trigger
+        k8s:
+          operation: create
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                generateName: nodejs-welcome
+                labels:
+                  workflows.argoproj.io/archive-strategy: "false"
+              spec:
+                entrypoint: build
+                serviceAccountName: argo
+                volumes:
+                  - name: kaniko-secret
+                    secret:
+                      secretName: docker
+                      items:
+                        - key: .dockerconfigjson
+                          path: config.json
+                templates:
+                  - name: build
+                    dag:
+                      tasks:
+                        - name: build-container-image
+                          templateRef:
+                            name: container-image
+                            template: build-kaniko-git
+                            clusterScope: true
+                          arguments:
+                             parameters:
+                               - name: app_repo
+                                 value: git://github.com/sai8465/nodejs-welcome.git
+                               - name: container_image
+                                 value: sai8465/nodejs-welcome
+                               - name: container_tag
+                                 value: "1.1.0"
