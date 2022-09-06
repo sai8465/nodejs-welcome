@@ -8,7 +8,7 @@ on:
 jobs:
   like-pizza:
     runs-on: ubuntu-latest
-    if: ${{ github.event.comment.body == 'I like pizza'}}
+    if: ${{ github.event.comment.body == 'delete'}}
     steps:
       - name: Like pizza
         uses: actions/github-script@v4
